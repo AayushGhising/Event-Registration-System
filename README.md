@@ -111,7 +111,7 @@ where `{visitorId}` is the ID of the registered visitor.
 
 ## Additional Information
 
-- Ensure that the `uploads` directory exists in the project root or is created by the application.
+- Ensure that the `upload` directory exists in the project root or is created by the application.
 - The application uses iText for generating PDF badges for registered visitors.
 
 ## Troubleshooting
