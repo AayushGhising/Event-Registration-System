@@ -41,7 +41,12 @@ spring.datasource.username=your_database_username
 spring.datasource.password=your_database_password
 ```
 
-### 4. Run the Application
+### 4. Configure the Upload Directory Path
+- Open the `VisitorService.java` file.
+- Locate the `uploadDir` variable.
+- Change the path of `uploadDir` to match the path of your upload folder.
+
+### 5. Run the Application
 - Open a terminal and navigate to the project directory.
 - Run the application using Maven:
 
@@ -49,7 +54,7 @@ spring.datasource.password=your_database_password
 ./mvnw spring-boot:run
 ```
 
-### 5. Access the Application
+### 6. Access the Application
 - Open a web browser and navigate to `http://localhost:8080/eventRegistration.html`.
 
 ## API Details
@@ -123,3 +128,4 @@ where `{visitorId}` is the ID of the registered visitor.
 ---
 
 This README file provides detailed instructions on how to set up, configure, and run the Event Registration System application. It also includes API details for registering visitors and downloading badges, as well as troubleshooting tips.
+
