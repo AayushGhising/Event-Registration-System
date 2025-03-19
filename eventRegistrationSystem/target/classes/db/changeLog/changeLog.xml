@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <!-- Create Visitors Table -->
+    <changeSet id="1742293422959-1" author="Acer">
+        <createTable tableName="visitors">
+            <column name="id" type="INTEGER" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="full_name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="email" type="VARCHAR(255)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="phone" type="VARCHAR(20)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="photo_path" type="VARCHAR(500)"/>
+        </createTable>
+    </changeSet>
+
+    <!-- Insert Data into Visitors Table -->
+    <changeSet id="1742293265923-1" author="Acer">
+        <insert tableName="visitors">
+            <column name="id" value="1"/>
+            <column name="full_name" value="John123"/>
+            <column name="email" value="john123@gmail.com"/>
+            <column name="phone" value="98986789688"/>
+            <column name="photo_path" value="E:\spring boot\eventRegistrationSystem\uploadbabita.jpg"/>
+        </insert>
+        <insert tableName="visitors">
+            <column name="id" value="2"/>
+            <column name="full_name" value="John12"/>
+            <column name="email" value="john12@gmail.com"/>
+            <column name="phone" value="9898678968"/>
+            <column name="photo_path" value="uploadbabita.jpg"/>
+        </insert>
+        <insert tableName="visitors">
+            <column name="id" value="4"/>
+            <column name="full_name" value="John12"/>
+            <column name="email" value="john122@gmail.com"/>
+            <column name="phone" value="98986789682"/>
+            <column name="photo_path" value="uploads/babita.jpg"/>
+        </insert>
+    </changeSet>
+
+    <!-- Add Column: Location to Visitors -->
+    <changeSet id="1742293422959-4" author="Acer">
+        <addColumn tableName="visitors">
+            <column name="location" type="VARCHAR(255)"/>
+        </addColumn>
+    </changeSet>
+
+    <!-- Create Events Table -->
+    <changeSet id="new-event-table" author="Acer">
+        <createTable tableName="events">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="VARCHAR(1000)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="start_date" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="end_date" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="location" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <!-- Add Event Relationship to Visitors -->
+    <changeSet id="add-event-relation-to-registration" author="Acer">
+        <addColumn tableName="visitors">
+            <column name="event_id" type="BIGINT"/>
+        </addColumn>
+        <addForeignKeyConstraint
+            baseTableName="visitors" baseColumnNames="event_id"
+            referencedTableName="events" referencedColumnNames="id"
+            constraintName="fk_visitors_event"/>
+    </changeSet>
+</databaseChangeLog>
