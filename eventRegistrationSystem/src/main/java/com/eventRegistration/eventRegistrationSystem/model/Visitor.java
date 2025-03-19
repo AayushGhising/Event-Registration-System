@@ -1,11 +1,6 @@
 package com.eventRegistration.eventRegistrationSystem.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import org.springframework.web.multipart.MultipartFile;
 
@@ -15,6 +10,7 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
 
 @Data
 @Entity
@@ -40,4 +36,13 @@ public class Visitor {
 
     @Column(name = "photo_path", nullable = false)
     private String photoPath;
+
+    @Column(name = "location", nullable = true)
+    private String location;
+
+    @ManyToOne
+    @JoinColumn(name = "event_id")
+    private Event event;
+
+
 }
