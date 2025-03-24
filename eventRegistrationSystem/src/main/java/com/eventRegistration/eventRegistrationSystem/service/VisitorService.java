@@ -3,7 +3,9 @@ package com.eventRegistration.eventRegistrationSystem.service;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Optional;
 
+import com.eventRegistration.eventRegistrationSystem.controller.VisitorController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -31,12 +33,14 @@ public class VisitorService {
     private VisitorRepository visitorRepository;
 
 
+
+
     // @Value("${file.upload-dir}")
     // private String uploadDir;
 
     private final String uploadDir = "E:\\spring boot\\eventRegistrationSystem\\upload\\";
 
-    public String registerVisitor(String fullName, String email, String phone, MultipartFile photo) throws IOException {
+    public String registerVisitor(String fullName, String email, String phone, MultipartFile photo, String password) throws IOException {
         // Path uploadPath = Paths.get(uploadDir);
         // if (!Files.exists(uploadPath)) {
         //     Files.createDirectories(uploadPath);
@@ -57,6 +61,7 @@ public class VisitorService {
             .email(email)
             .phone(phone)
             .photoPath(photoPath)
+                        .password(password)
             .build());
 
         photo.transferTo(new File(photoPath));
@@ -66,6 +71,20 @@ public class VisitorService {
         }
         return null;
         
+    }
+
+
+    public boolean authenticateVisitor(String email, String password) {
+        Optional<Visitor> visitorOpt = visitorRepository.findByEmail(email);
+
+        if (visitorOpt.isPresent()) {
+            Visitor visitor = visitorOpt.get();
+            // In a real application, you should use a password encoder
+            // For example: return passwordEncoder.matches(password, visitor.getPassword());
+            return password.equals(visitor.getPassword());
+        }
+
+        return false;
     }
 
     public void generateBadge(Visitor visitor, OutputStream outputStream) throws IOException, DocumentException {
@@ -152,6 +171,7 @@ public class VisitorService {
         document.add(outerTable);
         document.close();
     }
+
 
 
 }

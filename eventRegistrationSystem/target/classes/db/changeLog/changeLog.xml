@@ -92,10 +92,10 @@
     </changeSet>
 
     <!-- Add Password Column to Visitors -->
-    <changeSet id="add-password-to-visitors" author="Aayush">
+    <changeSet id="add-password-column" author="AayushGhising">
         <addColumn tableName="visitors">
-            <column name="password" type="VARCHAR(255)">
-                <constraints nullable="true" />
+            <column name="password" type="varchar(255)" defaultValue="123">
+                <constraints nullable="false"/>
             </column>
         </addColumn>
     </changeSet>

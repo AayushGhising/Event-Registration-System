@@ -59,14 +59,51 @@ public class VisitorController {
     // }
 
     @PostMapping("/register")
-    public ResponseEntity<String> regisiterVisitor(@RequestParam("fullName") String fullName, @RequestParam("email") String email, @RequestParam("phone") String phone, @RequestParam("photo") MultipartFile photo) {
+    public ResponseEntity<String> regisiterVisitor(@RequestParam("fullName") String fullName, @RequestParam("email") String email, @RequestParam("phone") String phone, @RequestParam("photo") MultipartFile photo, @RequestParam("password") String password) {
         try {
-            String response = visitorService.registerVisitor(fullName, email, phone, photo);
+            String response = visitorService.registerVisitor(fullName, email, phone, photo, password);
 //            log.info("Visitor registered successfully");
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (IOException e) {
 //            log.error("Failed to register visitor");
             return new ResponseEntity<>("Failed to upload file", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
+    @PostMapping("/login")
+    public ResponseEntity<?> loginUser(@RequestParam("email") String email,
+                                       @RequestParam("password") String password) {
+        try {
+            // Call the service to authenticate the user
+            boolean authenticated = visitorService.authenticateVisitor(email, password);
+
+            if (authenticated) {
+                // Return visitor details on successful login
+                Visitor visitor = visitorRepository.findByEmail(email)
+                        .orElseThrow(() -> new RuntimeException("Visitor not found"));
+
+                return new ResponseEntity<>(visitor, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>("Invalid email or password", HttpStatus.UNAUTHORIZED);
+            }
+        } catch (Exception e) {
+            log.error("Login failed: {}", e.getMessage());
+            return new ResponseEntity<>("Login failed: " + e.getMessage(),
+                    HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
+    @PostMapping("/logout")
+    public ResponseEntity<String> logoutUser() {
+        try {
+            // In a real application with session management, you would invalidate the session here
+            return new ResponseEntity<>("Logged out successfully", HttpStatus.OK);
+        } catch (Exception e) {
+            log.error("Logout failed: {}", e.getMessage());
+            return new ResponseEntity<>("Logout failed: " + e.getMessage(),
+                    HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
     
