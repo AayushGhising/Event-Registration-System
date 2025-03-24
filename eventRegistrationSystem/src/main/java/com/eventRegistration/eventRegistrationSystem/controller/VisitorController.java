@@ -2,11 +2,15 @@ package com.eventRegistration.eventRegistrationSystem.controller;
 
 import java.io.IOException;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+//import org.springframework.security.core.context.SecurityContextHolder;
+//import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -28,6 +32,7 @@ import com.itextpdf.text.pdf.qrcode.Mode;
 @RestController
 @RequestMapping("/api/eventRegistrationSystem")
 @CrossOrigin(origins = "http://127.0.0.1:5500") // Allow frontend origin
+@Slf4j
 public class VisitorController {
     @Autowired
     private VisitorService visitorService;
@@ -57,8 +62,10 @@ public class VisitorController {
     public ResponseEntity<String> regisiterVisitor(@RequestParam("fullName") String fullName, @RequestParam("email") String email, @RequestParam("phone") String phone, @RequestParam("photo") MultipartFile photo) {
         try {
             String response = visitorService.registerVisitor(fullName, email, phone, photo);
+//            log.info("Visitor registered successfully");
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (IOException e) {
+//            log.error("Failed to register visitor");
             return new ResponseEntity<>("Failed to upload file", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -72,5 +79,10 @@ public class VisitorController {
         response.setHeader("Content-Desposition", "attachment; filename=badge.pdf");
         visitorService.generateBadge(visitor, response.getOutputStream());
     }
+
+//    @GetMapping("/csrf")
+//    public CsrfToken getCsrfToken(HttpServletRequest request) {
+//        return (CsrfToken) request.getAttribute("_csrf");
+//    }
     
 }

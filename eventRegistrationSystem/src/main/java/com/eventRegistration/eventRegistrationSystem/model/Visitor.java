@@ -40,6 +40,7 @@ public class Visitor {
     @Column(name = "location", nullable = true)
     private String location;
 
+
     @ManyToOne
     @JoinColumn(name = "event_id")
     private Event event;

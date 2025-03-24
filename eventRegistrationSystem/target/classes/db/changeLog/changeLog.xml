@@ -90,4 +90,13 @@
             referencedTableName="events" referencedColumnNames="id"
             constraintName="fk_visitors_event"/>
     </changeSet>
+
+    <!-- Add Password Column to Visitors -->
+    <changeSet id="add-password-to-visitors" author="Aayush">
+        <addColumn tableName="visitors">
+            <column name="password" type="VARCHAR(255)">
+                <constraints nullable="true" />
+            </column>
+        </addColumn>
+    </changeSet>
 </databaseChangeLog>
